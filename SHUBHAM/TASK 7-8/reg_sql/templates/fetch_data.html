@@ -1,0 +1,57 @@
+{% if message %}
+<script>
+
+    alert('{{message}}');
+</script>
+{%endif%}
+
+<br>
+
+{% if row %}
+<center>
+<table border="1" cellspacing="0">
+    <tr>
+        <th>fname</th>
+        <th>lname</th>
+        <th>email</th>
+        <th>dob</th>
+        <th>gender</th>
+        <th>address</th>
+        <th>password</th>
+        <th>Delete</th>
+        <th>Update</th>
+    </tr>
+{%for i in row %}
+<td>{{ forloop.counter }}</td>
+<form action="/update/">
+{% csrf_token %}
+<tr>
+<td><input type="text" name="fname" value="{{i.0}}"/></td>
+<td><input type="text" name="lname" value="{{i.1}}"/></td>
+<td><input type="text" name="email" value="{{i.2}}"/></td>
+<td>{{i.3}}<input type="date" name="dob" value="{{i.3}}"></td>
+<td>
+    {% if "male" == i.4 %}
+    
+    <input type="radio" name="gender" value="male" checked> Male
+    <input type="radio" name="gender" value="female"> Female
+    
+    {% else %}
+    <input type="radio" name="gender" value="male" > Male
+    <input type="radio" name="gender" value="female" checked> Female
+    {% endif %}
+    </td>
+    
+<td><textarea name="address">{{i.5}}</textarea></td>
+<td><textarea name="password">{{i.6}}</textarea></td>
+
+<td><a href="/delete?id={{i.2}}">Delete</a></td>
+<td><button>Update</button></td>
+</tr>
+<input type="hidden" name="email" value="{{i.2}}">
+</form>
+<br>
+{%endfor%}
+</table>
+</center>
+{%endif%}
